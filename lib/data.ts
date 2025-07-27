@@ -1,71 +1,46 @@
 import { Tool, Category, SearchFilters } from './types'
 
-// Données statiques pour le développement
+// Données statiques pour développement
 const toolsData: Tool[] = [
-  {
-    tool_name: "CassetteAI",
-    tool_category: "Music",
-    tool_link: "https://cassetteai.com/",
-    overview: "Generate royalty-free music tracks.",
-    tool_description: "Copilot Music Creation is an AI-powered tool that utilizes advanced machine learning algorithms based on latent diffus model (LDMS) to generate high-quality, royalty-free music tracks tailored to specific needs and preferences.",
-    target_audience: "Musicians looking for inspiration, Content creators needing background music, Gamers creating custom game soundtracks, Music teachers seeking educational resources",
-    key_features: "Music creation, Royalty-free music tracks, Tailored to specific needs and preferences, Easy-to-use interface",
-    use_cases: "Create background music for videos, Generate music for podcasts, Produce original music tracks for commercial use",
-    tags: "Music",
-    image_url: "https://statics.topai.tools/img/tools/cassetteai.webp"
-  },
-  {
-    tool_name: "SteosVoice",
-    tool_category: "Audio generation",
-    tool_link: "https://cybervoice.io/",
-    overview: "Generate high-quality AI voices for audio content.",
-    tool_description: "Steosvoice is an AI tool that offers high-quality neural voice artificial intelligence for various uses. It can be used for creating unique content such as dubbing videos, creating podcasts or generating audio for books, among others.",
-    target_audience: "Content creators, Podcasters, Marketers, Business owners",
-    key_features: "Video dubbing, Podcast creation, Audio generation for books, Over 50 voice options",
-    use_cases: "Dubbing videos, Creating podcasts, Generating audio for books",
-    tags: "Text-to-Speech",
-    image_url: "https://statics.topai.tools/img/tools/steosvoice.webp"
-  },
-  {
-    tool_name: "AItoZee",
-    tool_category: "AI Assistant",
-    tool_link: "https://app.ecomdimes.com/",
-    overview: "Simplifies content creation and boosts productivity.",
-    tool_description: "Aitozee offers a versatile AI toolkit for various creative needs, including AI writing, image generation, coding assistance, transcribing spoken words, and voiceover capabilities.",
-    target_audience: "Content creators, Digital artists, Programmers, Transcriptionists",
-    key_features: "AI writing, Image generation, Coding assistance, Transcribing spoken words",
-    use_cases: "Generate engaging blog post content, Transform textual descriptions into visually appealing images, Increase productivity and efficiency by transcribing spoken words",
-    tags: "AI Assistant",
-    image_url: "https://statics.topai.tools/img/tools/aitozee.webp"
-  },
-  {
-    tool_name: "Unmixr",
-    tool_category: "Text-to-speech",
-    tool_link: "https://unmixr.com/",
-    overview: "AI-powered content creation and editing services.",
-    tool_description: "Unmixr is an AI-powered tool with multiple functionalities including text-to-speech, dubbing, chat, and copywriting. It offers various features such as AI chatbot with multiple chat engines, AI image generator, and an AI editor.",
-    target_audience: "Digital content creators, Video editors, Language learners, Translation agencies",
-    key_features: "Text-to-speech, Dubbing, Chat, Copywriting",
-    use_cases: "Generate high-quality voiceovers, Create video dubbings in multiple languages, Generate audio and video transcripts for content repurposing",
-    tags: "Text-to-speech, Transcriber",
-    image_url: "https://statics.topai.tools/img/tools/unmixr.webp"
-  },
   {
     tool_name: "ChatGPT",
     tool_category: "AI Assistant",
-    tool_link: "https://chat.openai.com/",
-    overview: "Advanced AI language model for conversation and content creation.",
-    tool_description: "ChatGPT is a large language model that can engage in conversations, answer questions, and help with various tasks including writing, coding, analysis, and creative content generation.",
-    target_audience: "Students, Professionals, Content creators, Developers",
-    key_features: "Natural language processing, Code generation, Creative writing, Problem solving",
-    use_cases: "Writing assistance, Code debugging, Learning new topics, Creative brainstorming",
-    tags: "AI Assistant, Language Model",
-    image_url: "https://statics.topai.tools/img/tools/chatgpt.webp"
+    tool_link: "https://chat.openai.com",
+    overview: "Assistant IA conversationnel",
+    tool_description: "ChatGPT est un modèle de langage développé par OpenAI qui peut comprendre et générer du texte humain. Il peut être utilisé pour la rédaction, la programmation, l'analyse et la conversation.",
+    target_audience: "Professionnels, étudiants, créateurs",
+    key_features: "Conversation naturelle, génération de texte, assistance",
+    use_cases: "Rédaction, programmation, brainstorming",
+    tags: "AI, chatbot, texte, assistant",
+    image_url: "https://statics.topai.tools/chatgpt.png"
+  },
+  {
+    tool_name: "Midjourney",
+    tool_category: "Image Generation",
+    tool_link: "https://midjourney.com",
+    overview: "Générateur d'images IA",
+    tool_description: "Midjourney est un outil de génération d'images par IA qui permet de créer des visuels artistiques à partir de descriptions textuelles.",
+    target_audience: "Artistes, designers, créateurs",
+    key_features: "Génération d'images, styles artistiques, haute qualité",
+    use_cases: "Art digital, design, illustrations",
+    tags: "AI, image, art, génération",
+    image_url: "https://statics.topai.tools/midjourney.png"
+  },
+  {
+    tool_name: "GitHub Copilot",
+    tool_category: "Code Assistant",
+    tool_link: "https://github.com/features/copilot",
+    overview: "Assistant de programmation IA",
+    tool_description: "GitHub Copilot est un assistant de programmation alimenté par l'IA qui aide les développeurs à écrire du code plus rapidement et plus efficacement.",
+    target_audience: "Développeurs, programmeurs",
+    key_features: "Autocomplétion, suggestions de code, intégration IDE",
+    use_cases: "Développement, debugging, documentation",
+    tags: "AI, code, développement, assistant",
+    image_url: "https://statics.topai.tools/copilot.png"
   }
 ]
 
-class DataManager {
-  private tools: Tool[] = toolsData
+export class DataManager {
   private categories: Map<string, Tool[]> = new Map()
   private tags: Map<string, Tool[]> = new Map()
 
@@ -76,7 +51,7 @@ class DataManager {
   private buildIndexes() {
     // Build category index
     this.categories.clear()
-    this.tools.forEach(tool => {
+    toolsData.forEach(tool => {
       if (tool.tool_category) {
         if (!this.categories.has(tool.tool_category)) {
           this.categories.set(tool.tool_category, [])
@@ -87,7 +62,7 @@ class DataManager {
 
     // Build tags index
     this.tags.clear()
-    this.tools.forEach(tool => {
+    toolsData.forEach(tool => {
       if (tool.tags) {
         const tagList = tool.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
         tagList.forEach(tag => {
@@ -101,12 +76,12 @@ class DataManager {
   }
 
   getAllTools(): Tool[] {
-    return this.tools
+    return toolsData
   }
 
   getToolBySlug(slug: string): Tool | undefined {
-    return this.tools.find(tool => 
-      tool.tool_name.toLowerCase().replace(/[^a-z0-9]/g, '-') === slug
+    return toolsData.find(tool => 
+      tool.tool_name.toLowerCase().replace(/\s+/g, '-') === slug
     )
   }
 
@@ -127,7 +102,7 @@ class DataManager {
   }
 
   searchTools(filters: SearchFilters): Tool[] {
-    let results = this.tools
+    let results = toolsData
 
     if (filters.category) {
       results = results.filter(tool => 
@@ -167,7 +142,7 @@ class DataManager {
   getPopularTags(limit: number = 20): { tag: string; count: number }[] {
     const tagCounts = new Map<string, number>()
     
-    this.tools.forEach(tool => {
+    toolsData.forEach(tool => {
       if (tool.tags) {
         const tags = tool.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
         tags.forEach(tag => {
@@ -184,14 +159,13 @@ class DataManager {
 
   getStats() {
     return {
-      totalTools: this.tools.length,
+      totalTools: toolsData.length,
       totalCategories: this.categories.size,
       totalTags: this.tags.size,
-      toolsWithLinks: this.tools.filter(t => t.tool_link).length,
-      toolsWithImages: this.tools.filter(t => t.image_url).length,
+      toolsWithLinks: toolsData.filter(t => t.tool_link).length,
+      toolsWithImages: toolsData.filter(t => t.image_url).length,
     }
   }
 }
 
-// Singleton instance
 export const dataManager = new DataManager() 

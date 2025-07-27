@@ -83,9 +83,9 @@ async function migrateData() {
     console.log(`📂 Found ${categories.size} unique categories`)
     console.log(`🏷️  Found ${tags.size} unique tags`)
 
-    // Create categories
-    console.log('📂 Creating categories...')
-    for (const categoryName of categories) {
+    // Upsert categories
+    console.log('Upserting categories...')
+    for (const categoryName of Array.from(categories)) {
       const slug = createSlug(categoryName)
       await prisma.category.upsert({
         where: { slug },
@@ -98,9 +98,9 @@ async function migrateData() {
       })
     }
 
-    // Create tags
-    console.log('🏷️  Creating tags...')
-    for (const tagName of tags) {
+    // Upsert tags
+    console.log('Upserting tags...')
+    for (const tagName of Array.from(tags)) {
       const slug = createSlug(tagName)
       await prisma.tag.upsert({
         where: { slug },
