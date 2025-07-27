@@ -53,7 +53,7 @@ async function migrateData() {
     console.log('🚀 Starting CSV to Database migration...')
 
     // Read CSV file
-    const csvPath = path.join(process.cwd(), 'working_database_rationalized_full.csv')
+    const csvPath = path.join(process.cwd(), 'data', 'raw', 'working_database_rationalized_full.csv')
     const csvContent = fs.readFileSync(csvPath, 'utf-8')
     const lines = csvContent.split('\n')
     
