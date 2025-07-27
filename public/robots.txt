@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.video-ia.net/sitemap.xml
+
+# Disallow admin area
+Disallow: /admin/
+Disallow: /api/admin/
+
+# Allow API endpoints
+Allow: /api/tools
+Allow: /api/categories
+Allow: /api/stats
+Allow: /api/search
+
+# Crawl delay
+Crawl-delay: 1 

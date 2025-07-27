@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Tool {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  category    String
+  link        String?
+  overview    String
+  description String
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  tags        ToolTag[]
+  features    ToolFeature[]
+  useCases    ToolUseCase[]
+  audiences   ToolAudience[]
+
+  @@map("tools")
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("categories")
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+
+  // Relations
+  tools ToolTag[]
+
+  @@map("tags")
+}
+
+model ToolTag {
+  id     String @id @default(cuid())
+  toolId String
+  tagId  String
+
+  // Relations
+  tool Tool @relation(fields: [toolId], references: [id], onDelete: Cascade)
+  tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([toolId, tagId])
+  @@map("tool_tags")
+}
+
+model ToolFeature {
+  id     String @id @default(cuid())
+  toolId String
+  feature String
+
+  // Relations
+  tool Tool @relation(fields: [toolId], references: [id], onDelete: Cascade)
+
+  @@map("tool_features")
+}
+
+model ToolUseCase {
+  id      String @id @default(cuid())
+  toolId  String
+  useCase String
+
+  // Relations
+  tool Tool @relation(fields: [toolId], references: [id], onDelete: Cascade)
+
+  @@map("tool_use_cases")
+}
+
+model ToolAudience {
+  id       String @id @default(cuid())
+  toolId   String
+  audience String
+
+  // Relations
+  tool Tool @relation(fields: [toolId], references: [id], onDelete: Cascade)
+
+  @@map("tool_audiences")
+}
+
+// Modèle pour les statistiques (optionnel)
+model SiteStats {
+  id           String   @id @default(cuid())
+  totalTools   Int      @default(0)
+  totalCategories Int   @default(0)
+  totalTags    Int      @default(0)
+  lastUpdated  DateTime @default(now())
+
+  @@map("site_stats")
+}
