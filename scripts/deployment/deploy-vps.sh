@@ -7,12 +7,13 @@
 set -e  # Arrêter en cas d'erreur
 
 # Configuration
-VPS_IP="VOTRE_IP_VPS"  # À modifier avec l'IP de votre VPS
+VPS_IP="46.202.129.104"
 VPS_USER="root"
 REPO_URL="https://github.com/Xelov4/v-ia.git"
 APP_NAME="video-ia"
 APP_DIR="/var/www/video-ia"
 DOMAIN="www.video-ia.net"
+EMAIL="jhiad.ejjilali@gmail.com"
 
 # Couleurs pour les messages
 RED='\033[0;31m'
@@ -24,15 +25,9 @@ NC='\033[0m' # No Color
 echo -e "${BLUE}🚀 Déploiement automatique Video-IA.net${NC}"
 echo -e "${BLUE}=====================================${NC}"
 
-# Vérifier que l'IP du VPS est configurée
-if [ "$VPS_IP" = "VOTRE_IP_VPS" ]; then
-    echo -e "${RED}❌ Erreur: Veuillez configurer VPS_IP dans ce script${NC}"
-    echo -e "${YELLOW}💡 Modifiez la variable VPS_IP avec l'IP de votre VPS${NC}"
-    exit 1
-fi
-
 echo -e "${GREEN}✅ Configuration validée${NC}"
 echo -e "${BLUE}📍 VPS IP: $VPS_IP${NC}"
+echo -e "${BLUE}📧 Email: $EMAIL${NC}"
 echo -e "${BLUE}📦 Repository: $REPO_URL${NC}"
 echo -e "${BLUE}🌐 Domaine: $DOMAIN${NC}"
 
@@ -253,9 +248,8 @@ success "Firewall configuré"
 
 step "11. Configuration SSL..."
 
-# Obtenir le certificat SSL (remplacer par votre email)
-echo -e "${YELLOW}⚠️  Note: Vous devrez configurer votre email pour Certbot${NC}"
-run_on_vps "certbot --nginx -d $DOMAIN --non-interactive --agree-tos --email votre-email@example.com || echo 'Certbot échoué - à configurer manuellement'"
+# Obtenir le certificat SSL avec votre email
+run_on_vps "certbot --nginx -d $DOMAIN --non-interactive --agree-tos --email $EMAIL"
 
 # Configurer le renouvellement automatique
 run_on_vps "echo \"0 12 * * * /usr/bin/certbot renew --quiet\" | crontab -"
@@ -280,9 +274,9 @@ echo -e "${BLUE}📝 Logs: pm2 logs $APP_NAME${NC}"
 echo -e "${BLUE}🗄️  DB: npm run db:studio${NC}"
 
 echo -e "${YELLOW}⚠️  Actions manuelles requises:${NC}"
-echo -e "${YELLOW}1. Configurer votre email dans Certbot${NC}"
-echo -e "${YELLOW}2. Vérifier que le domaine pointe vers $VPS_IP${NC}"
-echo -e "${YELLOW}3. Tester le site: https://$DOMAIN${NC}"
+echo -e "${YELLOW}1. Vérifier que le domaine pointe vers $VPS_IP${NC}"
+echo -e "${YELLOW}2. Tester le site: https://$DOMAIN${NC}"
+echo -e "${YELLOW}3. Vérifier les logs: pm2 logs $APP_NAME${NC}"
 
 echo -e "${BLUE}📚 Documentation: /docs${NC}"
 echo -e "${BLUE}🔧 Scripts: /scripts${NC}" 
